@@ -11,6 +11,7 @@ const mapStateToProps = (state) => ({
 })
 
 class OrderForm extends Component {
+    // contrustor setting up my state
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +19,7 @@ class OrderForm extends Component {
             quantity: "1"
         }
     }
-
+    // setting funtionality for template 
     menuItemChosen(event) {
         this.setState({ order_item: event.target.value });
     }
@@ -26,7 +27,7 @@ class OrderForm extends Component {
     menuQuantityChosen(event) {
         this.setState({ quantity: event.target.value });
     }
-
+    // submt ordor form that pings api 
     submitOrder(event) {
         event.preventDefault();
         if (this.state.order_item === "") return;
@@ -46,6 +47,7 @@ class OrderForm extends Component {
         .catch(error => console.error(error));
     }
 
+    // renders the view 
     render() {
         return (
             <Template>
@@ -80,4 +82,5 @@ class OrderForm extends Component {
     }
 }
 
+// using react redux
 export default connect(mapStateToProps, null)(OrderForm);
