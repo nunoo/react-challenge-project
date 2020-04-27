@@ -16,7 +16,6 @@ class OrderForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formLabel: (!props.match.params.id) ? "I'd like to order..." : "I need to change something real quick...",
             id: props.match.params.id || "",
             order_item: "",
             quantity: "1"
@@ -79,7 +78,7 @@ class OrderForm extends Component {
             <Template>
                 <div className="form-wrapper">
                     <form>
-                        <label className="form-label">{this.state.formLabel}</label><br />
+                        <label className="form-label">I'd like to order...</label><br />
                         <select 
                             value={this.state.order_item} 
                             onChange={(event) => this.menuItemChosen(event)}
