@@ -21,6 +21,26 @@ class ViewOrders extends Component {
             });
     }
 
+    editOrder() {	
+
+    }	
+
+    deleteOrder(order) {	
+        fetch(`${SERVER_IP}/api/delete-order`, {	
+            method: 'POST',	
+            body: JSON.stringify({	
+                id: order._id	
+            }),	
+            headers: {	
+                'Content-Type': 'application/json'	
+            },	
+        })	
+        .then(res => res.json())	
+        .then(response => console.log(response.success))	
+        .catch(error => console.error(error));	
+
+    }
+
     render() {
         return (
             <Template>
@@ -43,7 +63,7 @@ class ViewOrders extends Component {
                                  </div>
                                  <div className="col-md-4 view-order-right-col">
                                      <button className="btn btn-success">Edit</button>
-                                     <button className="btn btn-danger">Delete</button>
+                                     <button className="btn btn-danger" onClick={() => this.deleteOrder(order)}>Delete</button>
                                  </div>
                             </div>
                         );
