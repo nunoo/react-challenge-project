@@ -18,6 +18,15 @@ class OrderForm extends Component {
             order_item: "",
             quantity: "1"
         }
+        this.initialState = this.state;
+    }
+
+    alertOrder = (success) =>{
+        if (!success){
+            return alert('uh oh! error please try again')
+        }
+        alert('Your order was successful!');
+        this.setState(this.initialState);
     }
     // setting funtionality for template 
     menuItemChosen(event) {
@@ -43,7 +52,7 @@ class OrderForm extends Component {
             }
         })
         .then(res => res.json())
-        .then(response => console.log("Success", JSON.stringify(response)))
+        .then(response => this.alertOrder(response.success))
         .catch(error => console.error(error));
     }
 
