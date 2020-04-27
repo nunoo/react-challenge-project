@@ -4,20 +4,18 @@ import { Template } from '../../components';
 import { SERVER_IP } from '../../private';
 import './viewOrders.css';
 
-class ViewOrders extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      orders: [],
-    };
-  }
+const DELETE_ORDER_URL = `${SERVER_IP}/api/delete-order`;
+const GET_CURRENT_ORDERS = `${SERVER_IP}/api/current-orders`;
 
-  // getter - gets all
+class ViewOrders extends Component {
+  state = {
+    orders: [],
+  };
+
   componentDidMount() {
-    fetch(`${SERVER_IP}/api/current-orders`)
+    fetch(GET_CURRENT_ORDERS)
       .then((response) => response.json())
       .then((response) => {
-        console.log('orders', response.orders);
         if (response.success) {
           this.setState({ orders: response.orders });
         } else {
@@ -26,19 +24,22 @@ class ViewOrders extends Component {
       });
   }
 
-  // add in your functions Edit and Delete
-  deleteOrder(order) {
-    fetch(`${SERVER_IP}/api/delete-order`, {
+  deleteOrder(orderId) {
+    fetch(DELETE_ORDER_URL, {
       method: 'POST',
       body: JSON.stringify({
-        id: order._id,
+        id: orderId,
       }),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
-      .then((response) => console.log(response.success))
+      .then(() => {
+        const orders = this.state.orders.filter(
+          (order) => order._id !== orderId
+        );
+        this.setState({ orders });
+      })
       .catch((error) => console.error(error));
   }
 
@@ -67,7 +68,7 @@ class ViewOrders extends Component {
                   </Link>
                   <button
                     className="btn btn-danger"
-                    onClick={() => this.deleteOrder(order)}
+                    onClick={() => this.deleteOrder(order._id)}
                   >
                     Delete
                   </button>
@@ -82,4 +83,3 @@ class ViewOrders extends Component {
 }
 
 export default ViewOrders;
-
